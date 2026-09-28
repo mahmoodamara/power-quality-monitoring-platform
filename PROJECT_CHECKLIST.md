@@ -1,0 +1,31 @@
+# Project checklist
+
+- [x] C# / .NET 8 backend
+- [x] ASP.NET Core REST API
+- [x] SQL Server + EF Core
+- [x] CRUD for sites/devices
+- [x] LINQ queries and statistics
+- [x] Composite and unique indexes
+- [x] OOP rule engine
+- [x] async/await throughout I/O
+- [x] validation + custom exceptions
+- [x] layered architecture
+- [x] dependency injection
+- [x] bounded Channel<T> producer/consumer
+- [x] background event-processing worker
+- [x] offline-device detection worker
+- [x] idempotent telemetry ingestion
+- [x] Redis live-state cache
+- [x] SignalR real-time updates
+- [x] Polly retry + circuit breaker
+- [x] Serilog structured logging
+- [x] correlation IDs
+- [x] SQL + Redis readiness health checks
+- [x] OpenTelemetry tracing/metrics
+- [x] WPF monitoring client
+- [x] MVVM architecture
+- [x] xUnit unit tests
+- [x] API integration tests
+- [x] Docker Compose
+- [x] GitHub Actions CI
+- [x] smoke test and telemetry simulator

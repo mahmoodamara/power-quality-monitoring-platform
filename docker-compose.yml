@@ -1,0 +1,49 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: powerquality-sql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-PowerQuality123!}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: powerquality-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: src/PowerQuality.Api/Dockerfile
+    container_name: powerquality-api
+    depends_on:
+      - sqlserver
+      - redis
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__SqlServer: "Server=sqlserver,1433;Database=PowerQualityDb;User Id=sa;Password=${MSSQL_SA_PASSWORD:-PowerQuality123!};TrustServerCertificate=True;Encrypt=False;"
+      ConnectionStrings__Redis: "redis:6379"
+      Monitoring__OfflineAfterSeconds: "60"
+      Monitoring__OfflineCheckIntervalSeconds: "15"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  sql-data:
+  redis-data:
